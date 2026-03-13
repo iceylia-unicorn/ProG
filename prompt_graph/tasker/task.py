@@ -131,7 +131,7 @@ class BaseTask:
             self.gnn.load_state_dict(torch.load(self.pre_train_model_path, map_location='cpu'))
             self.gnn.to(self.device)       
             print("Successfully loaded pre-trained weights!")
-
+    #若预训练模型路径包含特定的关键词，则返回对应的预训练类型，否则返回None
     def return_pre_train_type(self, pre_train_model_path):
         names = ['None', 'DGI', 'GraphMAE','Edgepred_GPPT', 'Edgepred_Gprompt','GraphCL', 'SimGRACE']
         for name in names:

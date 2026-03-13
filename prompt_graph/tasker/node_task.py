@@ -12,13 +12,13 @@ from prompt_graph.evaluation import GpromptEva, AllInOneEva
 import pickle
 import os
 from prompt_graph.utils import process
-warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore") #关闭警告
 
 class NodeTask(BaseTask):
       def __init__(self, data, input_dim, output_dim, task_num = 5, graphs_list = None, *args, **kwargs):
             super().__init__(*args, **kwargs)
             self.task_type = 'NodeTask'
-            self.task_num = task_num  # 增加task_num的参数，控制重复数量，默认为5
+            self.task_num = task_num  # 重复训练次数
             if self.prompt_type == 'MultiGprompt':
                   self.load_multigprompt_data()
             else:
@@ -33,11 +33,11 @@ class NodeTask(BaseTask):
 
       def create_few_data_folder(self):
             # 创建文件夹并保存数据
-            k = self.shot_num  # shot_num 可变
-            task_num = self.task_num  # task_num 可变
-            for k in range(1, task_num+1):
+            k = self.shot_num  # 实际上shot_num没有用，k马上就在下面变了
+            task_num = self.task_num  # task_num实际上没有变固定为5
+            for k in range(1, task_num+1): #1-5
                   k_shot_folder = './Experiment/sample_data/Node/'+ self.dataset_name +'/' + str(k) +'_shot'
-                  os.makedirs(k_shot_folder, exist_ok=True)
+                  os.makedirs(k_shot_folder, exist_ok=True) #exist_ok就是即使已存在也不报错
 
                   for i in range(1, task_num+1):
                         folder = os.path.join(k_shot_folder, str(i))

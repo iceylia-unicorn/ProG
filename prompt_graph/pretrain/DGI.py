@@ -12,19 +12,20 @@ from prompt_graph.data import load4node, load4graph, NodePretrain
 import os
 import numpy as np
 import copy
+#让节点局部表示和整张图的全局摘要表示之间共享更多信息
 
 class Discriminator(nn.Module):
-    def __init__(self, n_h):
+    def __init__(self, n_h): #n_h为hidden_dim
         super(Discriminator, self).__init__()
-        self.f_k = nn.Bilinear(n_h, n_h, 1)
+        self.f_k = nn.Bilinear(n_h, n_h, 1) #双线性打分
 
         for m in self.modules():
-            self.weights_init(m)
+            self.weights_init(m)#Xavier初始化
 
     def weights_init(self, m):
         if isinstance(m, nn.Bilinear):
             torch.nn.init.xavier_uniform_(m.weight.data)
-            if m.bias is not None:
+            if m.bias is not None: #bias置零
                 m.bias.data.fill_(0.0)
 
     def forward(self, c, h_pl, h_mi, s_bias1=None, s_bias2=None):
@@ -50,10 +51,10 @@ class DGI(PreTrain):
         
       
         self.disc = Discriminator(self.hid_dim).to(self.device)
-        self.loss_fn = nn.BCEWithLogitsLoss()
-        self.graph_data = self.load_data()
-        self.initialize_gnn(self.input_dim, self.hid_dim)  
-        self.optimizer = Adam(self.gnn.parameters(), lr=0.001, weight_decay = 0.0)
+        self.loss_fn = nn.BCEWithLogitsLoss() #交叉
+        self.graph_data = self.load_data() #数据集中的图
+        self.initialize_gnn(self.input_dim, self.hid_dim)#调用初始化GNN
+        self.optimizer = Adam(self.gnn.parameters(), lr=0.001, weight_decay = 0.0)#参数固定
 
     # def load_data(self):
     #     if self.dataset_name in ['PubMed', 'CiteSeer', 'Cora','Computers', 'Photo', 'Reddit', 'WikiCS', 'Flickr', 'ogbn-arxiv']:

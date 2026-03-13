@@ -13,7 +13,7 @@ class PreTrain(torch.nn.Module):
         self.num_layer = gln
         self.epochs = num_epoch
         self.hid_dim =hid_dim
-        self.learning_rate = 0.001
+        self.learning_rate = 0.001      
         self.weight_decay = 0.00005
         self.num_workers = num_workers
     

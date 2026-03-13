@@ -1,5 +1,5 @@
 import argparse
-from prompt_graph.defines import GRAPH_TASKS, NODE_TASKS
+from prompt_graph.defines import GRAPH_TASKS, NODE_TASKS #定义了数据集名字list，枚举
 from prompt_graph.pretrain import Edgepred_GPPT, Edgepred_Gprompt, GraphCL, SimGRACE, NodePrePrompt, GraphPrePrompt, DGI, GraphMAE
 from prompt_graph.utils import seed_everything
 from prompt_graph.utils import mkdir, get_args

@@ -69,6 +69,7 @@ class GCN(torch.nn.Module):
             h_list.append(x)
         x = self.conv_layers[-1](x, edge_index)
         h_list.append(x)
+        #JK代表最后的节点表示层间融合方式， JK代表各个融合，sum代表每层相加，last代表直接最后一层，默认就是last
         if self.JK == "last":
             node_emb = h_list[-1]
         elif self.JK == "sum":
@@ -83,7 +84,7 @@ class GCN(torch.nn.Module):
             graph_emb = self.pool(node_emb, batch.long())
             return graph_emb
 
-
+    #下面两个都是辅助链路预测的
     def decode(self, z, edge_label_index):
         return (z[edge_label_index[0]] * z[edge_label_index[1]]).sum(dim=-1)
     

@@ -1,4 +1,4 @@
-import argparse
+import argparse #命令行参数转为对象
 from prompt_graph.tasker import NodeTask, GraphTask
 from prompt_graph.utils import seed_everything
 from torchsummary import summary
@@ -45,6 +45,7 @@ def get_downstream_task_delegate(args:argparse.Namespace):
             graphs_list = load_induced_graph(args.dataset_name, data, args.device) 
         else:
             graphs_list = None 
+        # 传参时用参数名可以不按顺序，子类属性在后面
         tasker = NodeTask(pre_train_model_path = args.pre_train_model_path, 
                         dataset_name = args.dataset_name, num_layer = args.num_layer,
                         gnn_type = args.gnn_type, hid_dim = args.hid_dim, prompt_type = args.prompt_type,
@@ -76,7 +77,7 @@ if __name__ == "__main__":
     print("Final F1 {:.4f}±{:.4f}(std)".format(f1,std_f1)) 
     print("Final AUROC {:.4f}±{:.4f}(std)".format(roc, std_roc)) 
 
-    pre_train_type = tasker.pre_train_type
+    pre_train_type: str | None = tasker.pre_train_type
 
 
 
